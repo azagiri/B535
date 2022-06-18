@@ -1,2 +1,10 @@
 oc new-project lerna    
 oc new-app --name hydra --docker-image quay.io/redhattraining/hello-world-nginx:v1.0 -n lerna   
+
+oc new-project path-finder    
+oc new-app --name voyager --docker-image quay.io/redhattraining/hello-world-nginx:v1.0 -n path-finder   
+oc expose svc voyager   
+oc patch deployment voyager -p  '{"spec":{"template":{"spec":{"nodeSelector":{"env":"dev"}}}}}'   
+oc get deployment voyager -o yaml > voyager.yaml    
+oc delete deployment voyager    
+oc create -f voyager.yaml   
